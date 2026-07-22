@@ -62,6 +62,10 @@ Trigger deze skills automatisch op natuurlijke taal. Wacht niet tot de gebruiker
 
 De skillbron staat in `.claude/skills`; `.agents/skills` is een symlink naar dezelfde map zodat Claude en Codex exact dezelfde workflows gebruiken. Pas skills alleen in `.claude/skills` aan en voer daarna `pnpm run check:skills` uit. Houd `AGENTS.md` en `CLAUDE.md` inhoudelijk gelijk.
 
+## Browsergebruik: altijd agent-browser
+
+Voor **elke** browsertaak — previews openen, screenshots, klikken, formulieren invullen, testen, scrapen — gebruik je altijd de **`agent-browser`** CLI. Gebruik **niet** de ingebouwde Claude-browser of een Chrome/browser-MCP; `agent-browser` is de enige browser-tool in deze werkruimte. Ontbreekt de CLI of kan die geen browser openen, gebruik dan `setup-machine` (die installeert `agent-browser` en draait `agent-browser install`).
+
 ## Websitewijzigingen altijd previewen
 
 Bij ieder verzoek dat zichtbare inhoud van de site verandert (tekst, afbeelding, styling, layout, pagina of component):
