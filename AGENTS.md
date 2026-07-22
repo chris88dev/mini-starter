@@ -52,6 +52,8 @@ Bij niet-triviaal werk werken we bij voorkeur met een **agent team** van subagen
 - `publish-changes` - commit op `main` + `vercel --prod`
 - `check-deploy` - status van de laatste Vercel-deploy
 - `fix-my-mess` - terug naar een werkende staat (met automatische backup)
+- `speedtest` - meet de snelheid (Core Web Vitals) van de productie-URL via PageSpeed Insights, of van de lokale preview via Lighthouse; rapporteert in gewone taal
+- `crop-image` - snijdt/resize site-afbeeldingen (hero, thumbnail, og-image) naar formaat of aspect ratio met macOS `sips`; output naar `public/`, het origineel blijft ongewijzigd
 
 Trigger deze skills automatisch op natuurlijke taal. Wacht niet tot de gebruiker de skill bij naam noemt.
 

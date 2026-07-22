@@ -25,6 +25,8 @@ Zeg **"setup"**. De `setup-machine`-skill loopt door:
 | `publiceer` | Commit op `main` + `vercel --prod`, productie-URL terug |
 | `is de deploy klaar?` | Status van de laatste Vercel-deploy |
 | `fix` / `draai terug` | Terug naar een werkende versie, met backup |
+| `hoe snel is mijn site?` | Core Web Vitals van je productie- of preview-site |
+| `snijd deze foto bij tot 16:9` | Site-afbeelding croppen/resizen naar `public/` |
 
 ## Handmatig (zonder skills)
 

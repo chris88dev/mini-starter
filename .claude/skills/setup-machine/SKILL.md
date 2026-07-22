@@ -231,3 +231,10 @@ Bij succes, stuur:
 - **`vercel login` opent geen browser**: kopieer de URL uit de terminal handmatig; controleer daarna `vercel whoami`.
 - **`vercel --prod` faalt op de build**: reproduceer met `pnpm build` en fix de fout lokaal eerst.
 - **Geen GitHub-account**: `github.com/signup`, daarna stap 7 opnieuw — of sla GitHub over (deploy werkt ook zonder).
+
+## Optionele extra's (geen aparte install nodig)
+
+Deze zijn niet nodig om live te gaan, maar zitten wel in de starter:
+
+- **`crop-image`** (site-afbeeldingen bijsnijden/resizen): gebruikt macOS' ingebouwde `sips`, plus de al aanwezige `cwebp` voor webp. Geen install nodig. Ontbreekt `cwebp` toch, dan `brew install webp`.
+- **`speedtest`** (Core Web Vitals meten): de productie-URL meet je via de PageSpeed Insights API (alleen internet nodig, geen install). Wil je de lokale preview meten, dan haalt `npx lighthouse` Lighthouse eenmalig op en is een Chrome/Chromium op de machine nodig.

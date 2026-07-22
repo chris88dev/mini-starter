@@ -37,9 +37,16 @@
       "Bash(pnpm install)",
       "Bash(pnpm dev)",
       "Bash(pnpm build)",
+      "Bash(pnpm start)",
       "Bash(pnpm run dev)",
       "Bash(pnpm run build)",
+      "Bash(pnpm run start)",
       "Bash(pnpm run check:skills)",
+      "Bash(node scripts/crop-image.mjs:*)",
+      "Bash(node scripts/parse-lighthouse.mjs:*)",
+      "Bash(sips:*)",
+      "Bash(cwebp:*)",
+      "Bash(curl --fail --silent --show-error https://www.googleapis.com/pagespeedonline/*)",
       "Bash(corepack enable)",
       "Bash(corepack prepare:*)",
       "Bash(which:*)",
@@ -90,7 +97,9 @@
       "Bash(vercel login:*)",
       "Bash(vercel deploy:*)",
       "Bash(vercel --prod:*)",
-      "Bash(vercel:*)"
+      "Bash(vercel:*)",
+      "Bash(npx --yes lighthouse:*)",
+      "Bash(npx lighthouse:*)"
     ],
     "deny": [
       "Bash(git push --force:*)",
