@@ -79,7 +79,9 @@
       "Bash(agent-browser set viewport:*)",
       "Bash(agent-browser screenshot:*)",
       "Bash(agent-browser errors:*)",
-      "Bash(agent-browser close:*)"
+      "Bash(agent-browser close:*)",
+      "Bash(lighthouse --version)",
+      "Bash(lighthouse:*)"
     ],
     "ask": [
       "Bash(git push:*)",
@@ -95,6 +97,8 @@
       "Bash(npm install -g corepack)",
       "Bash(npm install -g agent-browser)",
       "Bash(npm install -g vercel)",
+      "Bash(npm install -g lighthouse)",
+      "Bash(brew install --cask google-chrome)",
       "Bash(pnpm add:*)",
       "Bash(pnpm remove:*)",
       "Bash(pnpm uninstall:*)",

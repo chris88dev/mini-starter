@@ -108,6 +108,39 @@ agent-browser install
 agent-browser doctor
 ```
 
+## Stap 5b: Lighthouse (snelheidscheck bij publiceren)
+
+`publish-changes` meet vóór elke deploy de snelheid met Lighthouse. Installeer die eenmalig globaal, zodat de eerste publicatie niet op een download hoeft te wachten.
+
+```
+command -v lighthouse
+lighthouse --version
+```
+
+Afwezig — installeer de globale machine-tool (raakt de lockfile van de site niet):
+
+```
+npm install -g lighthouse
+```
+
+Zeg vooraf: "Ik installeer Lighthouse; daarmee meet ik straks vóór elke publicatie hoe snel je site is."
+
+Lighthouse heeft een **Chrome** nodig. Controleer of Google Chrome aanwezig is:
+
+```
+test -d "/Applications/Google Chrome.app" && echo "Chrome aanwezig" || echo "geen Google Chrome"
+```
+
+- **Chrome aanwezig:** klaar — Lighthouse vindt hem vanzelf.
+- **Geen Google Chrome:** je hebt in stap 5 al een testbrowser via `agent-browser` geïnstalleerd. Twee opties:
+  1. Wijs Lighthouse naar die browser met `CHROME_PATH` (haal het pad uit `agent-browser doctor`), of
+  2. Installeer Google Chrome (wordt automatisch gevonden door Lighthouse):
+     ```
+     brew install --cask google-chrome
+     ```
+
+Lukt de globale install niet terwijl `npx` wel werkt: dan valt `publish-changes` automatisch terug op `npx --yes lighthouse`. De globale install is puur om die eerste download te vermijden.
+
 ## Stap 6: Git-repo, identity en eerste commit
 
 Deze repo hoort een git-repo te zijn met `main` als branch. Check en richt in:
@@ -268,4 +301,4 @@ Bij succes, stuur:
 Deze zijn niet nodig om live te gaan, maar zitten wel in de starter:
 
 - **`crop-image`** (site-afbeeldingen bijsnijden/resizen): gebruikt macOS' ingebouwde `sips`, plus de al aanwezige `cwebp` voor webp. Geen install nodig. Ontbreekt `cwebp` toch, dan `brew install webp`.
-- **`speedtest`** (Core Web Vitals meten): de productie-URL meet je via de PageSpeed Insights API (alleen internet nodig, geen install). Wil je de lokale preview meten, dan haalt `npx lighthouse` Lighthouse eenmalig op en is een Chrome/Chromium op de machine nodig.
+- **`speedtest`** (Core Web Vitals meten): de productie-URL meet je via de PageSpeed Insights API (alleen internet nodig, geen install). De lokale meting gebruikt Lighthouse — die staat na stap 5b globaal geïnstalleerd (met een Chrome).

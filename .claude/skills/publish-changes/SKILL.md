@@ -63,9 +63,9 @@ Controleer dat uitsluitend de bedoelde wijziging gestaged staat. Laat de rest be
    ```
    PORT=4000 pnpm start
    ```
-   Wacht tot de server "Ready" is en draai Lighthouse (mobiel als primaire meting):
+   Wacht tot de server "Ready" is en draai Lighthouse (mobiel als primaire meting). Gebruik de globaal geïnstalleerde `lighthouse` (via `setup-machine`); ontbreekt die, val terug op `npx --yes lighthouse`:
    ```
-   npx --yes lighthouse http://localhost:4000 --quiet --chrome-flags="--headless=new" --output=json --output-path=/tmp/lh-mobile.json
+   lighthouse http://localhost:4000 --quiet --chrome-flags="--headless=new" --output=json --output-path=/tmp/lh-mobile.json
    node scripts/parse-lighthouse.mjs /tmp/lh-mobile.json --label mobiel
    ```
    Stop daarna de productie-server op poort 4000 (laat de dev-server op 3000 staan).

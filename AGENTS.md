@@ -47,14 +47,14 @@ De **main thread** (waar de gebruiker mee praat) is de orchestrator en **delegee
 ## Skills die in deze repo zitten
 
 - `welkom` - korte technische intro bij eerste opening of als de gebruiker niet weet waar te beginnen
-- `setup-machine` - verse Mac + accounts klaarzetten (Homebrew, Node 22, Git, Corepack, agent-browser, Vercel CLI), inloggen op GitHub + Vercel, en de eerste productie-deploy tot de site live staat
+- `setup-machine` - verse Mac + accounts klaarzetten (Homebrew, Node 22, Git, Corepack, agent-browser, Lighthouse, Vercel CLI), inloggen op GitHub + Vercel, en de eerste productie-deploy tot de site live staat
 - `start-site` - start lokale dev-server en levert de preview-URL
 - `agent-browser` - controleert lokale wijzigingen visueel op desktop en mobiel
 - `publish-changes` - commit op `main` + `vercel --prod`
 - `check-deploy` - status van de laatste Vercel-deploy
 - `fix-my-mess` - terug naar een werkende staat (met automatische backup)
 - `speedtest` - meet de snelheid (Core Web Vitals) van de productie-URL via PageSpeed Insights, of van de lokale preview via Lighthouse; rapporteert in gewone taal
-- `crop-image` - snijdt/resize site-afbeeldingen (hero, thumbnail, og-image) naar formaat of aspect ratio met macOS `sips`; output naar `public/`, het origineel blijft ongewijzigd
+- `crop-image` - snijdt/resize site-afbeeldingen (hero, thumbnail, og-image) naar formaat of aspect ratio met macOS `sips`, of zet met `--all` alle afbeeldingen in `public/` in één keer om naar webp; output naar `public/`, het origineel blijft ongewijzigd
 - `pull-changes` - haalt updates op en mergt veilig: template-updates (upstream, slimme merge die je personalisaties beschermt) of je eigen laatste versie (origin, multi-machine)
 
 Trigger deze skills automatisch op natuurlijke taal. Wacht niet tot de gebruiker de skill bij naam noemt.
