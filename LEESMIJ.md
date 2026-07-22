@@ -27,6 +27,7 @@ Zeg **"setup"**. De `setup-machine`-skill loopt door:
 | `fix` / `draai terug` | Terug naar een werkende versie, met backup |
 | `hoe snel is mijn site?` | Core Web Vitals van je productie- of preview-site |
 | `snijd deze foto bij tot 16:9` | Site-afbeelding croppen/resizen naar `public/` |
+| `haal template-updates op` / `sync` | Updates uit de starter-template of je eigen repo veilig mergen |
 
 ## Handmatig (zonder skills)
 

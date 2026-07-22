@@ -21,17 +21,14 @@ Dit is een minimale Next.js + Tailwind boilerplate die deployt naar Vercel via d
 - Bij build- of lintfouten: vat ze samen in gewone taal, stel een fix voor.
 - Bij twijfel: vraag, in plaats van aannemen.
 
-## Agent teams (parallel werk)
+## Agent teams (delegeren is de standaard)
 
-Bij niet-triviaal werk werken we bij voorkeur met een **agent team** van subagents, zodat onafhankelijke taken parallel lopen in plaats van sequentieel.
+De **main thread** (waar de gebruiker mee praat) is de orchestrator en **delegeert standaard**: zet niet-triviaal werk uit naar **subagents op Opus 4.8** of een **agent team**, in plaats van het zelf sequentieel af te handelen. Alleen echt triviale dingen doe je direct.
 
-- **Orchestrator op Fable** (`claude-fable-5`): coördineert, verdeelt het werk en houdt overzicht — schrijft zelf zo min mogelijk code.
-- **Agents op Opus 4.8** (`claude-opus-4-8`, het maximale model): het echte denk- en codeerwerk.
-- **Subagents kiezen zelf** het model dat bij hun deeltaak past (bijv. Haiku of Sonnet voor eenvoudige lookups of research).
-- Zet onafhankelijke taken in één keer als aparte subagents uit; wacht niet nodeloos sequentieel.
-- Houd gedeelde staat (dev-server, `node_modules`, git-index) bij één agent om conflicten te voorkomen; gebruik worktree-isolatie wanneer meerdere agents tegelijk bestanden wijzigen.
-
-**Bij start van een sessie:** controleer of de orchestrator op Fable draait. Zo niet, meld dat kort en stel voor over te schakelen naar Fable (bijv. `/model claude-fable-5`) voordat je een groot agent-team uitzet. Draai je al op Fable, ga gewoon door.
+- **Subagents/agents draaien op Opus 4.8** (`claude-opus-4-8`, het maximale model) voor het echte denk- en codeerwerk. Eenvoudige deeltaken mogen een lichter model kiezen.
+- **Fable** (`claude-fable-5`) gebruiken we specifiek voor **research bij moeilijke taken** (opties verkennen, web-research, een tweede invalshoek) — niet als standaard-orchestrator.
+- Zet onafhankelijke taken in één keer als aparte subagents uit (parallel); wacht niet nodeloos sequentieel.
+- Houd gedeelde staat (dev-server, `node_modules`, git-index, en bestanden als CLAUDE.md/AGENTS.md/settings.json) bij één agent om conflicten te voorkomen; isoleer parallelle bestandswijzigingen (aparte bestanden of worktree-isolatie).
 
 ## Package manager
 
@@ -57,6 +54,7 @@ Bij niet-triviaal werk werken we bij voorkeur met een **agent team** van subagen
 - `fix-my-mess` - terug naar een werkende staat (met automatische backup)
 - `speedtest` - meet de snelheid (Core Web Vitals) van de productie-URL via PageSpeed Insights, of van de lokale preview via Lighthouse; rapporteert in gewone taal
 - `crop-image` - snijdt/resize site-afbeeldingen (hero, thumbnail, og-image) naar formaat of aspect ratio met macOS `sips`; output naar `public/`, het origineel blijft ongewijzigd
+- `pull-changes` - haalt updates op en mergt veilig: template-updates (upstream, slimme merge die je personalisaties beschermt) of je eigen laatste versie (origin, multi-machine)
 
 Trigger deze skills automatisch op natuurlijke taal. Wacht niet tot de gebruiker de skill bij naam noemt.
 

@@ -156,13 +156,33 @@ gh auth login --web --git-protocol https
 
 Kies: GitHub.com → HTTPS → Yes (authenticate Git) → Login with web browser. Geef de gebruiker de 8-cijferige code; de browser opent automatisch. Vraag de flow af te ronden.
 
-Nog geen remote? Bied aan een private repo te maken en te pushen (vraag eerst bevestiging):
+### Een eigen private GitHub-repo aanmaken en koppelen
+
+Dit project hoort onder een **eigen private repo** te staan, niet onder de template-starter. Bekijk eerst de huidige remote:
 
 ```
-gh repo create <naam> --private --source=. --remote=origin --push
+git remote get-url origin 2>/dev/null || echo "geen origin"
 ```
 
-Heeft de gebruiker geen GitHub of wil die het overslaan: prima, ga door — GitHub is optioneel. Vermeld wel dat er dan geen online backup is.
+- **Wijst `origin` al naar een eigen project-repo** (dus NIET de template — de template-URL bevat `mini-starter`): dan is dit al goed. Sla deze stap over.
+- **Geen `origin`, óf `origin` wijst nog naar de template-starter** (URL bevat `mini-starter`): maak een eigen private repo aan.
+
+Zo maak je de eigen private repo:
+
+1. **Bepaal de naam.** Is `package.json` `"name"` al gepersonaliseerd door de onboarding (dus niet meer `mini-starter`), gebruik die als voorstel. Anders vraag: "Onder welke naam wil je dit project op GitHub?"
+2. **Leid een repo-slug af** van die naam: kleine letters, spaties en leestekens worden koppeltekens, alleen `a-z 0-9 -` blijft over (bijv. "Petito's Proeverij" → `petitos-proeverij`).
+3. **Controleer of de naam vrij is** onder je account: `gh repo view <slug>`. Bestaat hij al, stel een variant voor (bijv. `-site` erachter).
+4. **Ontkoppel de template-remote** als `origin` nog naar de template wijst:
+   ```
+   git remote remove origin
+   ```
+5. **Maak de private repo, koppel als `origin` en push `main`:**
+   ```
+   gh repo create <slug> --private --source=. --remote=origin --push
+   ```
+6. Bevestig kort: "Private repo aangemaakt en gekoppeld: <url>."
+
+Heeft de gebruiker geen GitHub of wil die dit overslaan: prima, ga door — GitHub is optioneel (de deploy loopt via Vercel, niet via GitHub). Vermeld wel dat er dan geen online backup is.
 
 ## Stap 8: Vercel CLI + login
 
