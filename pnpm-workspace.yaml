@@ -1,0 +1,6 @@
+# Supply-chain cooldown: weiger packages jonger dan 5 dagen.
+# Eenheid: minuten. 5 dagen = 5 * 24 * 60 = 7200.
+# Vereist pnpm >= 10.16; oudere pnpm negeert deze key stilzwijgend.
+# Bypass NOOIT met --ignore-minimum-release-age.
+minimumReleaseAge: 7200
+minimumReleaseAgeExclude: []
