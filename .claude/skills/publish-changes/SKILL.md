@@ -52,15 +52,29 @@ git status --short
 
 Controleer dat uitsluitend de bedoelde wijziging gestaged staat. Laat de rest bewust ongestaged en meld dat die niet live gaan.
 
-## Stap 5: Laatste kwaliteitscontrole
+## Stap 5: Laatste kwaliteitscontrole (visueel + build + snelheid)
 
-Zorg dat `start-site` draait en controleer de gewijzigde pagina opnieuw met `agent-browser` op desktop (`1280x900`) en mobiel (`390x844`) volgens de hoofd-instructies. Draai daarna de productie-bouw:
+1. Zorg dat `start-site` draait en controleer de gewijzigde pagina opnieuw met `agent-browser` op desktop (`1280x900`) en mobiel (`390x844`) volgens de hoofd-instructies.
+2. Draai de productie-bouw:
+   ```
+   pnpm build
+   ```
+3. **Lokale snelheidscheck met Lighthouse — vóór de deploy.** Meet een echte productie-build (niet de dev-server, die geeft misleidend lage cijfers). Start de productie-server in de achtergrond op een aparte poort, zodat de dev-server op 3000 kan blijven draaien:
+   ```
+   PORT=4000 pnpm start
+   ```
+   Wacht tot de server "Ready" is en draai Lighthouse (mobiel als primaire meting):
+   ```
+   npx --yes lighthouse http://localhost:4000 --quiet --chrome-flags="--headless=new" --output=json --output-path=/tmp/lh-mobile.json
+   node scripts/parse-lighthouse.mjs /tmp/lh-mobile.json --label mobiel
+   ```
+   Stop daarna de productie-server op poort 4000 (laat de dev-server op 3000 staan).
 
-```
-pnpm build
-```
+Klopt de preview niet, zijn er browser-errors of faalt de build: **publiceer niets**. Vat het probleem kort samen en herstel eerst.
 
-Klopt de preview niet, zijn er browser-errors of faalt de build: publiceer niets. Vat het probleem kort samen en herstel eerst.
+Lukt Lighthouse niet (bijv. `npx` faalt of er is geen Chrome gevonden): sla de meting over met een korte melding — dit blokkeert de publicatie niet. Vindt Lighthouse geen browser, zet dan `CHROME_PATH` naar de Chrome die `agent-browser` installeerde (zie `agent-browser doctor`), of installeer Google Chrome.
+
+Onthoud de performance-score voor de bevestiging in stap 6.
 
 ## Stap 6: Toon wat live gaat en vraag één keer bevestiging
 
@@ -69,9 +83,13 @@ Vat de gestagede inhoud samen in 2–5 bullets en toon de commit-message:
 > Ik heb dit gecontroleerd op desktop en mobiel en de build slaagt. Ik ga nu live zetten:
 > - Titel op de homepage aangepast naar "..."
 >
+> PageSpeed (Lighthouse, mobiel, productie-build): score <n>/100 — <goed/matig/slecht>.
+>
 > Commit-message: "Homepage titel aangepast naar X"
 >
 > Klopt dit? (ja / nee)
+
+Is de score **slecht** of duidelijk slechter dan verwacht, benoem dat expliciet en vraag of de gebruiker tóch wil publiceren of eerst de oorzaak wil aanpakken (afbeeldingen/fonts/bundle — zie `speedtest`). Kon Lighthouse niet meten, laat de score-regel weg en vermeld dat kort.
 
 Wacht op bevestiging. Bij nee: publiceer niets.
 
@@ -99,26 +117,13 @@ vercel --prod
 
 ## Stap 8: Verifieer live
 
-Delegeer naar `check-deploy` om te bevestigen dat de deploy de status `Ready` heeft. Eindig pas bij succes of met een concrete fout in gewone taal. Ga bij succes door naar stap 9 vóór je de eindbevestiging stuurt.
+Delegeer naar `check-deploy` om te bevestigen dat de deploy de status `Ready` heeft. Eindig pas bij succes of met een concrete fout in gewone taal.
 
-## Stap 9: Snelheidscheck (PageSpeed)
-
-Nu de site live staat, controleer je met PageSpeed Insights of de wijziging de snelheid niet verslechtert. Delegeer naar `speedtest` (PSI-pad) tegen de **productie-URL**, mobiel als primaire meting:
-
-```
-curl --fail --silent --show-error "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=<PRODUCTIE_URL>&strategy=mobile&category=performance" -o /tmp/psi-publish.json
-node scripts/parse-lighthouse.mjs /tmp/psi-publish.json --label mobiel
-```
-
-- Dit is **informatief**: de site staat al live, dus de check blokkeert de publicatie niet.
-- HTTP 429 ("Quota exceeded") of PSI onbereikbaar: sla de check over en meld kort dat de snelheidsmeting nu niet lukte (de wijziging staat gewoon live).
-- Score **goed/matig**: noem het kort in de eindbevestiging.
-- Score **slecht** of duidelijk slechter dan verwacht: leg het uit en bied aan de oorzaak te bekijken (afbeeldingen/fonts/bundle — zie `speedtest`) of met `fix-my-mess` terug te rollen.
-
-Eindbevestiging (met de snelheids-samenvatting erbij):
+Bij succes:
 
 > Klaar, je wijziging staat live: [<PRODUCTIE_URL>](<PRODUCTIE_URL>)
-> PageSpeed (mobiel): performance-score <score>/100 — <goed/matig/slecht>.
+
+Wil de gebruiker de snelheid ook op de échte productie-URL bevestigen (PageSpeed Insights), gebruik dan `speedtest`. Dat is optioneel; de bepalende snelheidscheck deed je al lokaal in stap 5.
 
 ## Veiligheid
 

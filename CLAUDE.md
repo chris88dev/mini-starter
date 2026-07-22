@@ -83,8 +83,7 @@ Wanneer de gebruiker zegt dat een wijziging live mag:
 
 1. Trigger `publish-changes` en voltooi de volledige flow, inclusief deploycontrole; vraag niet apart of de status gecheckt moet worden.
 2. Publiceer alleen bestanden die bij de bekeken en goedgekeurde wijziging horen. Stage nooit automatisch alle lokale bestanden (behalve de allereerste commit van een nieuwe repo in `setup-machine`).
-3. Voer vlak voor committen opnieuw de visuele desktop- en mobiele controle uit en draai `pnpm build`. Bij fouten gaat niets live.
-4. Ná de deploy volgt automatisch een **PageSpeed-check** op de live productie-URL (informatief, via `speedtest`/PSI). Bij een slechte score: uitleg + aanbod om te onderzoeken of terug te rollen.
+3. Voer vlak voor committen opnieuw de visuele desktop- en mobiele controle uit, draai `pnpm build`, en meet **vóór de deploy** lokaal met **Lighthouse** tegen een productie-build (`PORT=4000 pnpm start`). De performance-score gaat mee in de bevestiging. Bij build-/preview-fouten gaat niets live; bij een slechte score beslist de gebruiker of het tóch live mag. Een optionele PageSpeed-check op de echte productie-URL kan achteraf via `speedtest`.
 
 ## Herstel zonder verlies
 

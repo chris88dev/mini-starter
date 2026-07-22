@@ -68,6 +68,7 @@
       "Bash(lsof -a -p:*)",
       "Bash(PORT=3001 pnpm dev)",
       "Bash(PORT=3002 pnpm dev)",
+      "Bash(PORT=4000 pnpm start)",
       "Bash(sleep:*)",
       "Bash(agent-browser --version)",
       "Bash(agent-browser install)",
