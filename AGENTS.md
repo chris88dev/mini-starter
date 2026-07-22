@@ -18,6 +18,18 @@ Dit is een minimale Next.js + Tailwind boilerplate die deployt naar Vercel via d
 - Bij build- of lintfouten: vat ze samen in gewone taal, stel een fix voor.
 - Bij twijfel: vraag, in plaats van aannemen.
 
+## Agent teams (parallel werk)
+
+Bij niet-triviaal werk werken we bij voorkeur met een **agent team** van subagents, zodat onafhankelijke taken parallel lopen in plaats van sequentieel.
+
+- **Orchestrator op Fable** (`claude-fable-5`): coördineert, verdeelt het werk en houdt overzicht — schrijft zelf zo min mogelijk code.
+- **Agents op Opus 4.8** (`claude-opus-4-8`, het maximale model): het echte denk- en codeerwerk.
+- **Subagents kiezen zelf** het model dat bij hun deeltaak past (bijv. Haiku of Sonnet voor eenvoudige lookups of research).
+- Zet onafhankelijke taken in één keer als aparte subagents uit; wacht niet nodeloos sequentieel.
+- Houd gedeelde staat (dev-server, `node_modules`, git-index) bij één agent om conflicten te voorkomen; gebruik worktree-isolatie wanneer meerdere agents tegelijk bestanden wijzigen.
+
+**Bij start van een sessie:** controleer of de orchestrator op Fable draait. Zo niet, meld dat kort en stel voor over te schakelen naar Fable (bijv. `/model claude-fable-5`) voordat je een groot agent-team uitzet. Draai je al op Fable, ga gewoon door.
+
 ## Package manager
 
 - Deze repo gebruikt **pnpm** (versie staat in `package.json` bij `packageManager`).
