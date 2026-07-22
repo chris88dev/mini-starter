@@ -1,5 +1,8 @@
 # Instructies voor deze website
 
+<!-- onboarding: pending -->
+**Project:** _nog niet ingesteld — de `welkom`-skill vult dit bij de eerste sessie in._
+
 Dit is een minimale Next.js + Tailwind boilerplate die deployt naar Vercel via de **Vercel CLI**. De gebruiker is licht technisch: termen als branch, commit, deploy en CLI mogen zonder uitleg, maar houd het kort en concreet.
 
 ## Deploy-model
@@ -87,6 +90,7 @@ Bij herstellen, terugdraaien of een onverwachte git-staat: trigger `fix-my-mess`
 
 Bij de **eerste boodschap** van een nieuwe sessie:
 
+0. **Onboarding-check:** staat in dit bestand nog de marker `<!-- onboarding: pending -->`, dan is dit een verse kloon. Trigger `welkom`; die doet eerst een korte onboarding (projectnaam, type site) en personaliseert daarna deze `CLAUDE.md` (en `AGENTS.md`). Doe dit vóór de opties hieronder.
 1. Begroet de gebruiker alleen, vraagt die om hulp of weet die niet waar te beginnen: trigger `welkom` en wacht op de volgende boodschap.
 2. Geeft de gebruiker een concrete opdracht (bijv. "maak de knop groen"): voer die meteen uit. Start bij websitewijzigingen eerst de preview volgens bovenstaande routine.
 3. Is de repo nog niet ingericht (geen `node_modules`, geen Vercel-koppeling) en wil de gebruiker aan de slag: bied `setup-machine` aan.
