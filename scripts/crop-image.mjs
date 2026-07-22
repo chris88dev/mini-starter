@@ -15,6 +15,7 @@ import {
   existsSync,
   mkdirSync,
   mkdtempSync,
+  readdirSync,
   rmSync,
   statSync,
 } from "node:fs";
@@ -61,10 +62,90 @@ function formatBytes(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+// --- Batch-modus (--all): alle PNG/JPG in een map naar webp -----------------
+
+// Recursief PNG/JPG(JPEG) verzamelen. webp/avif/svg/gif slaan we over.
+function findRasterImages(dir) {
+  const results = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) {
+      results.push(...findRasterImages(full));
+    } else if (entry.isFile()) {
+      const ext = extname(entry.name).slice(1).toLowerCase();
+      if (ext === "png" || ext === "jpg" || ext === "jpeg") results.push(full);
+    }
+  }
+  return results;
+}
+
+// Alle PNG/JPG in `dir` naar webp zetten, naast het origineel. Originelen
+// blijven staan; een bestaande .webp wordt niet overschreven.
+function convertAllToWebp(dir) {
+  const root = resolve(dir);
+  if (!existsSync(root) || !statSync(root).isDirectory()) {
+    fail(`Map bestaat niet of is geen map: ${root}`);
+  }
+  const images = findRasterImages(root);
+  if (images.length === 0) {
+    console.log(`Geen PNG/JPG-afbeeldingen gevonden in ${root}.`);
+    return;
+  }
+
+  let converted = 0;
+  let skipped = 0;
+  let beforeTotal = 0;
+  let afterTotal = 0;
+
+  for (const src of images) {
+    const out = `${src.slice(0, -extname(src).length)}.webp`;
+    if (existsSync(out)) {
+      console.log(`Overslaan (webp bestaat al): ${out}`);
+      skipped++;
+      continue;
+    }
+    // sips-webp is onbetrouwbaar; gebruik cwebp, net als in de enkel-modus.
+    execFileSync("cwebp", ["-quiet", "-q", "90", src, "-o", out]);
+    const before = statSync(src).size;
+    const after = statSync(out).size;
+    beforeTotal += before;
+    afterTotal += after;
+    converted++;
+    const pct = before > 0 ? Math.round((1 - after / before) * 100) : 0;
+    console.log(
+      `${src} -> ${out}  ${formatBytes(before)} -> ${formatBytes(after)} (${pct}% kleiner)`,
+    );
+  }
+
+  const totalPct =
+    beforeTotal > 0 ? Math.round((1 - afterTotal / beforeTotal) * 100) : 0;
+  console.log("");
+  console.log(
+    `Klaar: ${converted} geconverteerd, ${skipped} overgeslagen. ` +
+      `Totaal ${formatBytes(beforeTotal)} -> ${formatBytes(afterTotal)} (${totalPct}% kleiner).`,
+  );
+  if (converted > 0) {
+    console.log(
+      "Originelen blijven staan. Wijs je <img>/next/image naar de .webp-bestanden en verwijder daarna eventueel de originelen.",
+    );
+  }
+}
+
 // --- Argumenten parsen ----------------------------------------------------
 
 const argv = process.argv.slice(2);
 if (argv.length === 0) fail("Geen invoerbestand opgegeven.");
+
+// Batch-modus: `--all [map]` zet alle PNG/JPG in de map (standaard public/)
+// om naar webp. Geen crop/resize — pure formaatconversie.
+if (argv.includes("--all")) {
+  const rest = argv.filter((a) => a !== "--all");
+  if (rest.length > 1) {
+    fail(`Onverwachte extra argumenten bij --all: ${rest.slice(1).join(" ")}`);
+  }
+  convertAllToWebp(rest[0] ?? "public");
+  process.exit(0);
+}
 
 let input;
 const opts = { aspect: null, width: null, height: null, out: null, format: null };

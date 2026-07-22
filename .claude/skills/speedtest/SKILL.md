@@ -69,6 +69,28 @@ Is de score **slecht**, noem dan op hoofdlijnen concrete vervolgstappen:
 
 Bied aan om een van deze punten concreet op te pakken.
 
+### Afbeeldingen: bied webp-conversie actief aan
+
+Signaleert het rapport zware afbeeldingen (een hoge LCP, of een expliciete
+Lighthouse-hint als "serveer afbeeldingen in moderne formaten"), controleer dan
+of er nog niet-geoptimaliseerde afbeeldingen in `public/` staan:
+
+```
+find public -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \)
+```
+
+Zijn die er, bied dan aan ze in één keer naar webp te zetten via de
+`crop-image`-skill (batch-modus). Dit weegt hier extra zwaar omdat de repo
+`images: { unoptimized: true }` gebruikt — Next serveert de bestanden ongewijzigd,
+dus webp aan de bronkant helpt direct:
+
+```
+node scripts/crop-image.mjs --all
+```
+
+De originelen blijven staan; wijs daarna de `<img>`/`next/image`-verwijzingen
+naar de nieuwe `.webp`-bestanden. Doe dit alleen na akkoord van de gebruiker.
+
 ## Let op
 
 Deze skill staat alleen onder `.claude/skills/speedtest/`. De map `.agents/skills` is een symlink naar `.claude/skills`, dus Codex ziet dezelfde skill automatisch — maak geen tweede kopie aan.
