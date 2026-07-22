@@ -90,7 +90,7 @@ Bij herstellen, terugdraaien of een onverwachte git-staat: trigger `fix-my-mess`
 
 Bij de **eerste boodschap** van een nieuwe sessie:
 
-0. **Onboarding-check:** staat in dit bestand nog de marker `<!-- onboarding: pending -->`, dan is dit een verse kloon. Trigger `welkom`; die doet eerst een korte onboarding (projectnaam, type site) en personaliseert daarna deze `CLAUDE.md` (en `AGENTS.md`). Doe dit vóór de opties hieronder.
+0. **Onboarding-check:** staat de onboarding-marker bovenaan dit bestand (de HTML-commentregel direct onder de titel) nog op *pending*, dan is dit een verse kloon. Trigger `welkom`; die doet eerst een korte onboarding (projectnaam, type site) en personaliseert daarna deze `CLAUDE.md` (en `AGENTS.md`). Doe dit vóór de opties hieronder.
 1. Begroet de gebruiker alleen, vraagt die om hulp of weet die niet waar te beginnen: trigger `welkom` en wacht op de volgende boodschap.
 2. Geeft de gebruiker een concrete opdracht (bijv. "maak de knop groen"): voer die meteen uit. Start bij websitewijzigingen eerst de preview volgens bovenstaande routine.
 3. Is de repo nog niet ingericht (geen `node_modules`, geen Vercel-koppeling) en wil de gebruiker aan de slag: bied `setup-machine` aan.
