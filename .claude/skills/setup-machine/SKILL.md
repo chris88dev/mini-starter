@@ -9,6 +9,17 @@ Doel: doorlopen tot er een **echte productie-URL** is. Sla alles over dat al wer
 
 Deploy-model van deze repo: je werkt **direct op `main`** en deployt met **`vercel --prod`** via de Vercel CLI. Git + GitHub zijn het vangnet (historie/backup), niet de deploy-trigger.
 
+## Werk vanuit de repo-root
+
+Voer **alle** commando's in deze skill uit vanuit de **hoofdmap van het project** (de map met `package.json` en `.git`). `gh`, `git`, `vercel` en `agent-browser` zijn globale machine-tools die je **direct** aanroept — **niet** via `npx` en **niet** als script in `package.json`. Vooral `gh repo create --source=.`, `vercel link` en alle `git`-commando's werken op de huidige map; sta je in een submap, dan koppelen of committen ze het verkeerde project.
+
+Controleer bij twijfel waar je staat en ga desnoods naar de root:
+
+```
+pwd
+git rev-parse --show-toplevel
+```
+
 ## Stap 1: Homebrew
 
 ```

@@ -19,6 +19,7 @@
       "Bash(git tag:*)",
       "Bash(git init)",
       "Bash(git init -b main)",
+      "Bash(git rev-parse:*)",
       "Bash(git remote get-url:*)",
       "Bash(git remote -v)",
       "Bash(git remote show:*)",

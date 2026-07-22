@@ -35,6 +35,7 @@ De **main thread** (waar de gebruiker mee praat) is de orchestrator en **delegee
 - Deze repo gebruikt **pnpm** (versie staat in `package.json` bij `packageManager`).
 - Gebruik nooit `npm` of `yarn` voor dependencies van de site — dat verpest de lockfile.
 - Machine-tools (`agent-browser`, `vercel`) worden globaal geïnstalleerd (Homebrew of npm-global) via `setup-machine`; die raken de lockfile niet.
+- `gh`, `git`, `vercel` en `agent-browser` roep je **direct** aan vanuit de **repo-root** — niet via `npx` en niet als `package.json`-script. `gh repo create --source=.`, `vercel link` en `git`-commando's werken op de huidige map, dus vanuit een submap koppelen/committen ze het verkeerde project.
 - `setup-machine` installeert Node 22 LTS en activeert Corepack, zodat de pnpm-versie uit `package.json` beschikbaar blijft.
 
 ## Packages installeren
