@@ -99,11 +99,26 @@ vercel --prod
 
 ## Stap 8: Verifieer live
 
-Delegeer naar `check-deploy` om te bevestigen dat de deploy de status `Ready` heeft. Eindig pas bij succes of met een concrete fout in gewone taal.
+Delegeer naar `check-deploy` om te bevestigen dat de deploy de status `Ready` heeft. Eindig pas bij succes of met een concrete fout in gewone taal. Ga bij succes door naar stap 9 vóór je de eindbevestiging stuurt.
 
-Bij succes:
+## Stap 9: Snelheidscheck (PageSpeed)
+
+Nu de site live staat, controleer je met PageSpeed Insights of de wijziging de snelheid niet verslechtert. Delegeer naar `speedtest` (PSI-pad) tegen de **productie-URL**, mobiel als primaire meting:
+
+```
+curl --fail --silent --show-error "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=<PRODUCTIE_URL>&strategy=mobile&category=performance" -o /tmp/psi-publish.json
+node scripts/parse-lighthouse.mjs /tmp/psi-publish.json --label mobiel
+```
+
+- Dit is **informatief**: de site staat al live, dus de check blokkeert de publicatie niet.
+- HTTP 429 ("Quota exceeded") of PSI onbereikbaar: sla de check over en meld kort dat de snelheidsmeting nu niet lukte (de wijziging staat gewoon live).
+- Score **goed/matig**: noem het kort in de eindbevestiging.
+- Score **slecht** of duidelijk slechter dan verwacht: leg het uit en bied aan de oorzaak te bekijken (afbeeldingen/fonts/bundle — zie `speedtest`) of met `fix-my-mess` terug te rollen.
+
+Eindbevestiging (met de snelheids-samenvatting erbij):
 
 > Klaar, je wijziging staat live: [<PRODUCTIE_URL>](<PRODUCTIE_URL>)
+> PageSpeed (mobiel): performance-score <score>/100 — <goed/matig/slecht>.
 
 ## Veiligheid
 
